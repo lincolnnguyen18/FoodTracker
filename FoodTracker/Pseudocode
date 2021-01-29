@@ -1,0 +1,62 @@
+View Controller (delegate of text field, image picker controller, and navigation controller)
+    View Controller Properties and Setup
+        Set outlets
+        Override viewDidLoad
+            Call super
+            Make view controller delegate of nameTextField
+    Text Field Delegate Actions
+        Before text field returns
+            Hide keyboard
+        After text field editing ends
+            Set meal name label's text to text field's text
+    Image Picker Controller Delegate Actions
+        After picker cancelled
+            Close it
+        After picker finished
+            Check if picked image is valid
+            Set image view to picked image
+            Close the picker
+    View Controller Actions
+        When image view is tapped
+            Hide keyboard (if text field was active)
+            Instantiate image picker controller
+            Set its source to photo library
+            Set its delegate to the view controller
+            Show the picker
+        When button is tapped
+            Set meal name label text to "Default Text"
+
+Rating Controller
+    Rating Controller Properties
+        Initialize empty array of buttons
+        Initialize integer rating
+        After rating integer set, update button selection states
+        Initialize CGSize star size and star count
+        Call setupButtons whenever either of these are changed
+    Initialize Buttons
+        Override interface builder init to call super and setupButtons
+        Implement required storyboard runtime init to call super and setupButtons
+        When rating controller instantiated at runtime, call setupButtons
+    Button Action
+        ratingButtonTapped function
+            Check that selected button returns valid index
+            If index + 1 == rating then reset rating to 0
+            Else, set rating to index + 1
+    Private Methods
+        setupButtons function
+            Loop through buttons array
+                Remove each from stackview array
+                Remove each from stackview superview
+            Clear buttons array
+            Get bundle
+            Load images for filledStar, emptyStar, and highlightedStar from bundle
+            For starCount times
+                Initialize button
+                Set its image according to its state
+                Constrain button
+                Attach ratingButtonTapped to button
+                Add button to stackview superview
+                Add button to buttons array
+        updateButtonSelectionStates function
+            Loop through (index, button) of enumerated buttons array
+                If button's index < current rating then set its state as selected
