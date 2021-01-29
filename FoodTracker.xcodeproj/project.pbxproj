@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D420114C25C44E6B00AC51F7 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420114B25C44E6B00AC51F7 /* RatingControl.swift */; };
 		D420115525C48CAF00AC51F7 /* Pseudocode in Resources */ = {isa = PBXBuildFile; fileRef = D420115425C48CAF00AC51F7 /* Pseudocode */; };
+		D420116025C4AEFB00AC51F7 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420115F25C4AEFB00AC51F7 /* Meal.swift */; };
 		D476F21125C36092001E9FBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D476F21025C36092001E9FBB /* AppDelegate.swift */; };
 		D476F21325C36092001E9FBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D476F21225C36092001E9FBB /* SceneDelegate.swift */; };
 		D476F21525C36092001E9FBB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D476F21425C36092001E9FBB /* ViewController.swift */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		D420114B25C44E6B00AC51F7 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
 		D420115425C48CAF00AC51F7 /* Pseudocode */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pseudocode; sourceTree = "<group>"; };
+		D420115F25C4AEFB00AC51F7 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		D476F20D25C36092001E9FBB /* FoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D476F21025C36092001E9FBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D476F21225C36092001E9FBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				D476F21025C36092001E9FBB /* AppDelegate.swift */,
 				D476F21225C36092001E9FBB /* SceneDelegate.swift */,
 				D476F21425C36092001E9FBB /* ViewController.swift */,
+				D420115F25C4AEFB00AC51F7 /* Meal.swift */,
 				D420114B25C44E6B00AC51F7 /* RatingControl.swift */,
 				D476F21625C36092001E9FBB /* Main.storyboard */,
 				D476F21925C36092001E9FBB /* Assets.xcassets */,
@@ -265,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D420116025C4AEFB00AC51F7 /* Meal.swift in Sources */,
 				D420114C25C44E6B00AC51F7 /* RatingControl.swift in Sources */,
 				D476F21525C36092001E9FBB /* ViewController.swift in Sources */,
 				D476F21125C36092001E9FBB /* AppDelegate.swift in Sources */,
@@ -485,7 +489,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6372HGMF4H;
 				INFOPLIST_FILE = FoodTrackerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -507,7 +511,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6372HGMF4H;
 				INFOPLIST_FILE = FoodTrackerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

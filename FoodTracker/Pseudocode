@@ -49,7 +49,7 @@ Rating Controller
                 Remove each from stackview superview
             Clear buttons array
             Get bundle
-            Load images for filledStar, emptyStar, and highlightedStar from bundle
+            Load images for filledStar, emptyStawr, and highlightedStar from bundle
             For starCount times
                 Initialize button
                 Set its image according to its state
@@ -60,3 +60,19 @@ Rating Controller
         updateButtonSelectionStates function
             Loop through (index, button) of enumerated buttons array
                 If button's index < current rating then set its state as selected
+
+Meal Data Model
+    Meal Properties
+        Initialize name, optional photo, and rating variables
+    Meal Failable Init
+        Check name is not empty
+        Check rating is in [0, 5]
+        If so, initialize stored properties
+
+Meal Class Unit Tests
+    testMealInitializationSucceeds function
+        Test meal with rating of 0
+        Test meal with rating of 5
+    testMealInitializationFails function
+        Test meal with negative rating
+        Test meal with empty string name

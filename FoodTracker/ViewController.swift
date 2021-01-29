@@ -54,7 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         }
         photoImageView.image = selectedImage
         dismiss(animated: true, completion: nil)
-    }
+     }
     
     //MARK: View Controller Actions
     // When image view is tapped
