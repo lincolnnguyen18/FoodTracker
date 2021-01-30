@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import os.log
 
 class MealTableViewController: UITableViewController {
     // MARK: Properties and Setup
@@ -13,15 +14,17 @@ class MealTableViewController: UITableViewController {
      Initialize empty array of meals
      Override viewDidLoad
          Call super
+     Set navigationItem's leftBarButtonItem as editButtonItem
          Load sample data
      */
     var meals = [Meal]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = editButtonItem
         loadSampleMeals()
     }
     
-    // MARK: Table View Data Source Implementation
+    // MARK: Data Source Protocol Implementation
     /*
      Override numberOfSections
          Return 1
@@ -33,6 +36,7 @@ class MealTableViewController: UITableViewController {
          Check for failure
          Get meal from meals array
          Configure cell with meal data
+         Return configured cell
      */
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -52,19 +56,72 @@ class MealTableViewController: UITableViewController {
         return cell
     }
     
+    // MARK: Delegate Methods
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            meals.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            
+        }
+    }
+    
     // MARK: Navigation
     /*
      unwindToMealList function - destination view controller of unwind segue
-         If source view controller can be downcasted into a MealViewController and its meal property is non-nil then
-             Create index path to new bottom row in table
-             Append meal retrieved from source view controller to table view controller's meals array
-             Call insertRows
+         If source view controller can be downcasted into a MealViewController and its meal property is non-nil, store them into sourceViewController and meal
+             If table view's index path for selected row is non-nil then save into selectedIndexPath
+                 Update meal at selectedIndexPath.row in meals array to meal returned by source view controller
+                 Reload row at selectedIndexPath
+             Else
+                 Create index path to new bottom row in table
+                 Append meal retrieved from source view controller to table view controller's meals array
+                 Call insertRows
      */
     @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? MealViewController, let meal = sourceViewController.meal {
-            let newIndexPath = IndexPath(row: meals.count, section: 0)
-            meals.append(meal)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                meals[selectedIndexPath.row] = meal
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            else {
+                let newIndexPath = IndexPath(row: meals.count, section: 0)
+                meals.append(meal)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        }
+    }
+    /*
+     Override prepare(for:sender:) - source view controller for unwind segue
+         Call super
+         Unwrap segueue identifier and switch it (identify segue)
+             If AddItem then
+                 Log "Adding a new meal."
+             If ShowDetail then
+                 Verify downcasted segue destination is MealViewController and save it
+                 Verify downcasted sender is MealTableViewCell and save it
+                 Verify indexPath of MealTableViewCell sender is in the table view controller
+                 If all fail, call fatalError with "Unexpected Segue Identifier"
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        switch(segue.identifier ?? "") {
+        case "AddItem":
+            os_log("Adding a new meal.", log: OSLog.default, type: .debug)
+        case "ShowDetail":
+            guard let mealDetailViewController = segue.destination as? MealViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            guard let selectedMealCell = sender as? MealTableViewCell else {
+                fatalError("Unexpected sender: \(sender ?? "nil sender")")
+            }
+            guard let indexPath = tableView.indexPath(for: selectedMealCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            let selectedMeal = meals[indexPath.row]
+            mealDetailViewController.meal = selectedMeal
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier ?? "nil identifier")")
         }
     }
 

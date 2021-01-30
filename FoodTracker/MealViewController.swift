@@ -18,6 +18,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
      Override viewDidLoad
          Call super
          Make view controller delegate of nameTextField
+         If meal property non-nil (received from source view controller of unwind segue) then configure meal view controller to display data from meal property
          Enable saveButton only when textField is nonempty by calling updateSaveButtonState whenever view loads
      Override touchesBegan
          End editing
@@ -30,6 +31,12 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.delegate = self
+        if let meal = meal {
+            navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating
+        }
         updateSaveButtonState()
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,8 +103,24 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     
     // MARK: Navigation
+    /*
+     cancel function
+         Store whether or not presentingViewController is UINavigationController (whether current view is modal; ShowDetail) in isPresentingInAddMealMode
+         If so, call dismiss(animated:completion:) without storing any data or calling the prepare(for:sender:) and unwindToMealList methods
+         Else, unwrap the meal view's navigationController into owningNavigationController (check whether current view was pushed on navigation stack; AddItem) and call the navigation view's popViewController to pop the meal detail scene off the navigation stack
+         Check for unwrap failure
+     */
     @IBAction func cancel(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        if isPresentingInAddMealMode {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController {
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The MealViewController is not inside a navigation controller.")
+        }
     }
     /*
      Override prepare(for:sender:) - source view controller for unwind segue
