@@ -51,6 +51,22 @@ class MealTableViewController: UITableViewController {
         cell.ratingControl.rating = meal.rating
         return cell
     }
+    
+    // MARK: Navigation
+    /*
+     unwindToMealList function - destination view controller of unwind segue
+         If source view controller can be downcasted into a MealViewController and its meal property is non-nil then
+             Create index path to new bottom row in table
+             Append meal retrieved from source view controller to table view controller's meals array
+             Call insertRows
+     */
+    @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? MealViewController, let meal = sourceViewController.meal {
+            let newIndexPath = IndexPath(row: meals.count, section: 0)
+            meals.append(meal)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
 
     // MARK: Private Methods
     /*

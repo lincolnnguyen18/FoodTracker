@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 // View Controller (delegate of text field, image picker controller, and navigation controller)
 class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -17,28 +18,44 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
      Override viewDidLoad
          Call super
          Make view controller delegate of nameTextField
+         Enable saveButton only when textField is nonempty by calling updateSaveButtonState whenever view loads
+     Override touchesBegan
+         End editing
      */
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    var meal: Meal?
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.delegate = self
+        updateSaveButtonState()
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     // MARK: Text Field Delegate Actions
     /*
      Before text field returns
          Hide keyboard
+     After text field editing begins
+         Disable saveButton
      After text field editing ends
-         Set meal name label's text to text field's text
+         Call updateSaveButtonState
+         Set navigationItem's title to textField's text
      */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        saveButton.isEnabled = false
+    }
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
+        updateSaveButtonState()
+        navigationItem.title = textField.text
     }
     
     // MARK: Image Picker Controller Delegate Actions
@@ -61,7 +78,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         dismiss(animated: true, completion: nil)
      }
     
-    // MARK: View Controller Actions
+    // MARK: Actions
     /*
      When image view is tapped
          Hide keyboard (if text field was active)
@@ -76,5 +93,41 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    // MARK: Navigation
+    @IBAction func cancel(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    /*
+     Override prepare(for:sender:) - source view controller for unwind segue
+         Call super
+         Verify sender is a button and that it is the saveButton
+         Unwrap text in nameTextFIeld into a constant
+         Save currently selected photo and rating into constants
+         Create meal with saved data
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
+        let name = nameTextField.text ?? ""
+        let photo = photoImageView.image
+        let rating = ratingControl.rating
+        meal = Meal(name: name, photo: photo, rating: rating)
+    }
+    
+    // MARK: Private Methods
+    /*
+     Private Methods
+         updateSaveButtonState function
+             Unwrap nameTextField text into constant
+             Disable saveButton if string is empty
+     */
+    private func updateSaveButtonState() {
+        let text = nameTextField.text ?? ""
+        saveButton.isEnabled = !text.isEmpty
     }
 }

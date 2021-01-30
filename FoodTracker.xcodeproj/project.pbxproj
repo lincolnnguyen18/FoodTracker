@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D420114C25C44E6B00AC51F7 /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420114B25C44E6B00AC51F7 /* RatingControl.swift */; };
-		D420115525C48CAF00AC51F7 /* Pseudocode in Resources */ = {isa = PBXBuildFile; fileRef = D420115425C48CAF00AC51F7 /* Pseudocode */; };
+		D420115525C48CAF00AC51F7 /* Pseudocode.md in Resources */ = {isa = PBXBuildFile; fileRef = D420115425C48CAF00AC51F7 /* Pseudocode.md */; };
 		D420116025C4AEFB00AC51F7 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420115F25C4AEFB00AC51F7 /* Meal.swift */; };
 		D420116B25C4C64E00AC51F7 /* MealTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420116A25C4C64E00AC51F7 /* MealTableViewCell.swift */; };
 		D476F21125C36092001E9FBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D476F21025C36092001E9FBB /* AppDelegate.swift */; };
@@ -41,7 +41,7 @@
 
 /* Begin PBXFileReference section */
 		D420114B25C44E6B00AC51F7 /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
-		D420115425C48CAF00AC51F7 /* Pseudocode */ = {isa = PBXFileReference; lastKnownFileType = text; path = Pseudocode; sourceTree = "<group>"; };
+		D420115425C48CAF00AC51F7 /* Pseudocode.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Pseudocode.md; sourceTree = "<group>"; };
 		D420115F25C4AEFB00AC51F7 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
 		D420116A25C4C64E00AC51F7 /* MealTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealTableViewCell.swift; sourceTree = "<group>"; };
 		D476F20D25C36092001E9FBB /* FoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +120,7 @@
 				D476F21925C36092001E9FBB /* Assets.xcassets */,
 				D476F21B25C36092001E9FBB /* LaunchScreen.storyboard */,
 				D476F21E25C36092001E9FBB /* Info.plist */,
-				D420115425C48CAF00AC51F7 /* Pseudocode */,
+				D420115425C48CAF00AC51F7 /* Pseudocode.md */,
 			);
 			path = FoodTracker;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D476F21D25C36092001E9FBB /* LaunchScreen.storyboard in Resources */,
-				D420115525C48CAF00AC51F7 /* Pseudocode in Resources */,
+				D420115525C48CAF00AC51F7 /* Pseudocode.md in Resources */,
 				D476F21A25C36092001E9FBB /* Assets.xcassets in Resources */,
 				D476F21825C36092001E9FBB /* Main.storyboard in Resources */,
 			);
