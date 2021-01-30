@@ -8,18 +8,20 @@
 import UIKit
 
 @IBDesignable class RatingControl: UIStackView {
-    //MARK: Rating Controller Properties
-    // Initialize empty array of buttons
+    // MARK: Rating Controller Properties
+    /*
+     Initialize empty array of buttons
+     Initialize integer rating
+     After rating integer set, update button selection states
+     Initialize CGSize star size and star count
+     Call setupButtons whenever either of these are changed
+     */
     private var ratingButtons = [UIButton]()
-    // Initialize integer rating
-    // After rating integer set, update button selection states
     var rating = 0 {
         didSet {
             updateButtonSelectionStates()
         }
     }
-    // Initialize CGSize star size and star count
-    // Call setupButtons whenever either of these are changed
     @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0) {
         didSet {
             setupButtons()
@@ -31,9 +33,11 @@ import UIKit
         }
     }
     
-    //MARK: Initialization
-    // Override interface builder init to call super and setupButtons
-    // Implement required storyboard runtime init to call super and setupButtons
+    // MARK: Initialize Buttons
+    /*
+     Override interface builder init to call super and setupButtons
+     Implement required storyboard runtime init to call super and setupButtons
+     */
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupButtons()
@@ -43,11 +47,13 @@ import UIKit
         setupButtons()
     }
     
-    //MARK: Button Action
-    // ratingButtonTapped function
-    //  Check that selected button returns valid index
-    //  If index + 1 == rating then reset rating to 0
-    //  Else, set rating to index + 1
+    // MARK: Button Action
+    /*
+     ratingButtonTapped function
+         Check that selected button returns valid index
+         If index + 1 == rating then reset rating to 0
+         Else, set rating to index + 1
+     */
     @objc func ratingButtonTapped(button: UIButton) {
         guard let index = ratingButtons.firstIndex(of: button) else {
             fatalError("The button, \(button), is not in the ratingButtons array: \(ratingButtons)")
@@ -59,21 +65,23 @@ import UIKit
         }
     }
     
-    //MARK: Private Methods
-    // setupButtons function
-    // Loop through buttons array
-    //  Remove each from stackview array
-    //  Remove each from stackview superview
-    // Clear buttons array
-    // Get bundle
-    // Load images for filledStar, emptyStar, and highlightedStar from bundle
-    // For starCount times
-    //  Initialize button
-    //  Set its image according to its state
-    //  Constrain button
-    //  Attach ratingButtonTapped to button
-    //  Add button to stackview superview
-    //  Add button to buttons array
+    // MARK: Private Methods
+    /*
+     setupButtons function
+         Loop through buttons array
+             Remove each from stackview array
+             Remove each from stackview superview
+         Clear buttons array
+         Get bundle
+         Load images for filledStar, emptyStawr, and highlightedStar from bundle
+         For starCount times
+             Initialize button
+             Set its image according to its state
+             Constrain button
+             Attach ratingButtonTapped to button
+             Add button to stackview superview
+             Add button to buttons array
+     */
     private func setupButtons() {
         for button in ratingButtons {
             removeArrangedSubview(button)
@@ -98,10 +106,11 @@ import UIKit
             ratingButtons.append(button)
         }
     }
-    
-    // updateButtonSelectionStates function
-    //  Loop through (index, button) of enumerated buttons array
-    //      If button's index < current rating then set its state as selected
+    /*
+     updateButtonSelectionStates function
+         Loop through (index, button) of enumerated buttons array
+             If button's index < current rating then set its state as selected
+     */
     private func updateButtonSelectionStates() {
         for (index, button) in ratingButtons.enumerated() {
             button.isSelected = index < rating

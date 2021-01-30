@@ -10,18 +10,23 @@ import XCTest
 
 class FoodTrackerTests: XCTestCase {
     //MARK: Meal Class Unit Tests
-    // testMealInitializationSucceeds function
-    //  Test meal with rating of 0
-    //  Test meal with rating of 5
+    /*
+     testMealInitializationSucceeds function
+         Test meal with rating of 0
+         Test meal with rating of 5
+     */
     func testMealInitializationSucceeds() {
         let zeroRatingMeal = Meal.init(name: "Zero", photo: nil, rating: 0)
         XCTAssertNotNil(zeroRatingMeal)
         let positiveRatingMeal = Meal.init(name: "Positive", photo: nil, rating: 5)
         XCTAssertNotNil(positiveRatingMeal)
     }
-    // testMealInitializationFails function
-    //  Test meal with negative rating
-    //  Test meal with empty string name
+    /*
+     testMealInitializationFails function
+         Test meal with negative rating
+         Test meal with rating of 6
+         Test meal with empty string name
+     */
     func testMealInitializationFails() {
         let negativeRatingMeal = Meal.init(name: "Negative", photo: nil, rating: -1)
         XCTAssertNil(negativeRatingMeal)

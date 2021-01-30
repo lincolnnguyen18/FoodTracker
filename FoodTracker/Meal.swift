@@ -8,17 +8,20 @@
 import UIKit
 
 class Meal {
-    //MARK: Properties
-    // Initialize name, optional photo, and rating variables
+    // MARK: Properties
+    /*
+     Initialize name, optional photo, and rating variables
+     */
     var name: String
     var photo: UIImage?
     var rating: Int
     
-    //MARK: Meal Failable Init
-    // If name is empty or rating < 0 then return nil
-    // Check name is not empty
-    // Check rating is in [0, 5]
-    // If so, initialize stored properties
+    // MARK: Meal Failable Init
+    /*
+     Check name is not empty
+     Check rating is in [0, 5]
+     If so, initialize stored properties
+     */
     init?(name: String, photo: UIImage?, rating: Int) {
         guard !name.isEmpty else {
             return nil

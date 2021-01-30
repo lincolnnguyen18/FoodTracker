@@ -1,4 +1,4 @@
-View Controller (delegate of text field, image picker controller, and navigation controller)
+Meal View Controller (delegate of text field, image picker controller, and navigation controller)
     View Controller Properties and Setup
         Set outlets
         Override viewDidLoad
@@ -8,7 +8,7 @@ View Controller (delegate of text field, image picker controller, and navigation
         Before text field returns
             Hide keyboard
         After text field editing ends
-            Set meal name label's text to text field's text
+            
     Image Picker Controller Delegate Actions
         After picker cancelled
             Close it
@@ -23,8 +23,6 @@ View Controller (delegate of text field, image picker controller, and navigation
             Set its source to photo library
             Set its delegate to the view controller
             Show the picker
-        When button is tapped
-            Set meal name label text to "Default Text"
 
 Rating Controller
     Rating Controller Properties
@@ -36,7 +34,6 @@ Rating Controller
     Initialize Buttons
         Override interface builder init to call super and setupButtons
         Implement required storyboard runtime init to call super and setupButtons
-        When rating controller instantiated at runtime, call setupButtons
     Button Action
         ratingButtonTapped function
             Check that selected button returns valid index
@@ -75,4 +72,32 @@ Meal Class Unit Tests
         Test meal with rating of 5
     testMealInitializationFails function
         Test meal with negative rating
+        Test meal with rating of 6
         Test meal with empty string name
+
+Meal Table View Cell
+    
+Meal Table View Controller
+    Properties and Setup
+        Initialize empty array of meals
+        Override viewDidLoad
+            Call super
+            Load sample data
+    Table View Data Source Implementation
+        Override numberOfSections
+            Return 1
+        Override tableView(_:numberOfRowsInSection:)
+            Return meals array count
+        Override tableView(_:cellForRowAt:)
+            Create cell identifier
+            Create cell by calling dequeueReusableCell and downcast returned table view cell into a meal table view cell
+            Check for failure
+            Get meal from meals array
+            Configure cell with meal data
+            Return configured cell
+            
+    Private Methods
+        loadSampleMeals function
+            Load sample photos
+            Create meal objects and check for failure
+            Add meal objects to meals array
