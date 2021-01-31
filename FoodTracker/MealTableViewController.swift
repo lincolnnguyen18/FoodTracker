@@ -14,14 +14,22 @@ class MealTableViewController: UITableViewController {
      Initialize empty array of meals
      Override viewDidLoad
          Call super
-     Set navigationItem's leftBarButtonItem as editButtonItem
-         Load sample data
+         Set navigationItem's leftBarButtonItem as editButtonItem
+         If loadMeals returns meals then
+             Load meals
+         Else
+             Call loadSampleMeals
      */
     var meals = [Meal]()
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = editButtonItem
-        loadSampleMeals()
+        if let savedMeals = loadMeals() {
+            meals += savedMeals
+        }
+        if meals.count == 0 {
+            loadSampleMeals()
+        }
     }
     
     // MARK: Data Source Protocol Implementation
@@ -60,9 +68,9 @@ class MealTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             meals.remove(at: indexPath.row)
+            saveMeals()
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
-            
         }
     }
     
@@ -77,6 +85,7 @@ class MealTableViewController: UITableViewController {
                  Create index path to new bottom row in table
                  Append meal retrieved from source view controller to table view controller's meals array
                  Call insertRows
+             In either case (from ShowDetail update or from unwindToMealList new meal), call saveMeals
      */
     @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? MealViewController, let meal = sourceViewController.meal {
@@ -89,6 +98,7 @@ class MealTableViewController: UITableViewController {
                 meals.append(meal)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
+            saveMeals()
         }
     }
     /*
@@ -146,5 +156,40 @@ class MealTableViewController: UITableViewController {
             fatalError("Unable to instantiate meal1")
         }
         meals += [meal1, meal2, meal3]
+    }
+    /*
+     saveMeals function
+         Call NSKeyedArchiver.archivedData for meals and save encoded object into data
+         Try to write data into Meal.ArchiveURL
+         If successful then
+             Log "Meals successfully saved." (debug type)
+         Else
+             Log "Failed to save meals..." (error type)
+     */
+    private func saveMeals() {
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: meals, requiringSecureCoding: false)
+            try data.write(to: Meal.ArchiveURL)
+            os_log("Meals successfully saved.", log: OSLog.default, type: .debug)
+        } catch {
+            os_log("Failed to save meals...", log: OSLog.default, type: .error)
+        }
+    }
+    /*
+     loadMeals function
+         Call Data(contentsOf:) on Meal.ArchiveUrl and store into data
+         Call NSKeyedUnarchiver's unarchiveTopLevelObjectWithData on data and store as array of meals into meals
+         Return meals
+         Check for failure
+     */
+    private func loadMeals() -> [Meal]? {
+        do {
+            let data = try Data(contentsOf: Meal.ArchiveURL)
+            let meals = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [Meal]
+            return meals
+        } catch {
+            os_log("Failed to load meals...", log: OSLog.default, type: .error)
+        }
+        return meals
     }
 }

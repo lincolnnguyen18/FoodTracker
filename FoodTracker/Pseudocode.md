@@ -82,15 +82,30 @@
             Loop through (index, button) of enumerated buttons array
                 If button's index < current rating then set its state as selected
 
-# Meal Data Model
-### Meal Properties
+# Meal Data Model (subclasses NSObject and conforms to NSCoding protocol)
+
+### Properties
         Initialize name, optional photo, and rating variables
-### Meal Failable Init
+### Archiving Paths
+        Call FileManager's ulrs(for:in:) method for array of URLs and force unwrap the first URL into static constant DocumentsDirectory
+        Append "meals" to end of DocumentsDirectory URL and save in static constant ArchiveURL
+### Types
+        Declare PropertyKey structure
+            Declare static constant properties of structure (name, photo, rating)
+### Failable Init
         Check name is not empty
         Check rating is in [0, 5]
         If so, initialize stored properties
+### NSCoding Data Persistence
+        encode(with:) function
+            Encode the value of each property of meal and store them with their corresponding key in PropertyKey
+        implement failable conveience init required by NSObject subclass
+            Guard unwrap optional and downcast decoded object for PropertyKey.name into constant
+            Unwrap optional and downcast decoded object for PropertyKey.photo int constant
+            Unarchive int for PropertyKey.rating into constant
+            Call designated initializer
 
-### Meal Class Unit Tests
+# Unit Tests
 ### testMealInitializationSucceeds function
         Test meal with rating of 0
         Test meal with rating of 5
@@ -107,7 +122,10 @@
         Override viewDidLoad
             Call super
             Set navigationItem's leftBarButtonItem as editButtonItem
-            Load sample data
+            If loadMeals returns meals then
+                Load meals
+            Else
+                Call loadSampleMeals
 ### Data Source Protocol Implementation
         Override numberOfSections
             Return 1
@@ -124,9 +142,9 @@
         Override tableView(_:commit:forRowAt:)
             If editingStyle is delete then
                 Remove meal at indexPath.row in meals array
+                Call saveMeals
                 Delete row at indexPath in tableView controller
             Else if editingStyle is insert then
-                
 ### Navigation
         unwindToMealList function - destination view controller of unwind segue
             If source view controller can be downcasted into a MealViewController and its meal property is non-nil, store them into sourceViewController and meal
@@ -137,6 +155,7 @@
                     Create index path to new bottom row in table
                     Append meal retrieved from source view controller to table view controller's meals array
                     Call insertRows
+                In either case (from ShowDetail update or from unwindToMealList new meal), call saveMeals
         Override prepare(for:sender:) - source view controller for unwind segue
             Call super
             Unwrap segueue identifier and switch it (identify segue)
@@ -154,3 +173,15 @@
             Load sample photos
             Create meal objects and check for failure
             Add meal objects to meals array
+        saveMeals function
+            Call NSKeyedArchiver.archivedData for meals and save encoded object into data
+            Try to write data into Meal.ArchiveURL
+            If successful then
+                Log "Meals successfully saved." (debug type)
+            Else
+                Log "Failed to save meals..." (error type)
+        loadMeals function
+            Call Data(contentsOf:) on Meal.ArchiveUrl and store into data
+            Call NSKeyedUnarchiver's unarchiveTopLevelObjectWithData on data and store as array of meals into meals
+            Return meals
+            Check for failure
