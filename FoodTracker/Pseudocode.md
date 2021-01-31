@@ -122,10 +122,8 @@
         Override viewDidLoad
             Call super
             Set navigationItem's leftBarButtonItem as editButtonItem
-            If loadMeals returns meals then
-                Load meals
-            Else
-                Call loadSampleMeals
+            Call loadMeals into savedMeals and add savedMeals to meals array
+            If meals array is empty then call loadSampleMeals
 ### Data Source Protocol Implementation
         Override numberOfSections
             Return 1
